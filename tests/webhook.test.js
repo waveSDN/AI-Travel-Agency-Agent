@@ -39,7 +39,8 @@ jest.mock('../src/config/env', () => ({
   followUp: { day1: 1, day2: 3, day3: 7 },
 }));
 
-const app = require('../src/index');
+const { buildApp } = require('../src/app');
+const app = buildApp();
 
 describe('POST /webhook', () => {
   test('returns 200 for valid payload', async () => {

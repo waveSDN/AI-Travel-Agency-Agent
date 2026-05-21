@@ -2,6 +2,7 @@ const Anthropic = require('@anthropic-ai/sdk');
 const { claude: config } = require('../config/env');
 const { AIServiceError } = require('../utils/errors');
 const logger = require('../utils/logger');
+const eventBus = require('../events/eventBus');
 
 let anthropicClient = null;
 
