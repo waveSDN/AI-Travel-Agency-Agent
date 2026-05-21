@@ -1,0 +1,10 @@
+.git
+.env
+*.env
+node_modules
+logs
+*.log
+.eslintrc*
+jest.config*
+tests
+coverage

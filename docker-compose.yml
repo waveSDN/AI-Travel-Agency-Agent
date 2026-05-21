@@ -1,0 +1,47 @@
+version: '3.9'
+
+services:
+  agent:
+    build: .
+    container_name: ai-travel-agent
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    env_file:
+      - .env
+    volumes:
+      - ./logs:/app/logs
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://localhost:3000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 15s
+    networks:
+      - travel-net
+
+  # Optional: self-hosted n8n for automation workflows
+  n8n:
+    image: n8nio/n8n:latest
+    container_name: n8n-automation
+    restart: unless-stopped
+    ports:
+      - "5678:5678"
+    environment:
+      - N8N_BASIC_AUTH_ACTIVE=true
+      - N8N_BASIC_AUTH_USER=${N8N_USER:-admin}
+      - N8N_BASIC_AUTH_PASSWORD=${N8N_PASSWORD:-changeme}
+      - WEBHOOK_URL=http://agent:3000
+    volumes:
+      - n8n_data:/home/node/.n8n
+    depends_on:
+      - agent
+    networks:
+      - travel-net
+
+volumes:
+  n8n_data:
+
+networks:
+  travel-net:
+    driver: bridge
