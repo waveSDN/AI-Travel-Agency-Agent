@@ -1,6 +1,6 @@
 /* مساعد WIS — guided steps, approved answers, optional questions to the server, and a summary built
    from the visitor's own choices. Everything shown is text (textContent); links and buttons come from
-   fixed lists in this file, never from the model. The summary is never sent anywhere. */
+   fixed lists in this file, never from the model. The summary is never sent to Gemini; WhatsApp opens only through a visitor-controlled link. */
 (function () {
   'use strict';
 
@@ -30,6 +30,14 @@
     var sumList = $('[data-as-summary-list]');
     var sumText = $('[data-as-summary-text]');
     var copyStatus = $('[data-as-copy-status]');
+    var whatsapp = $('[data-as-whatsapp]');
+
+    function updateWhatsAppLink() {
+      var number = whatsapp && whatsapp.getAttribute('data-whatsapp-number');
+      if (!number || !/^\d{8,15}$/.test(number)) return;
+      var text = sumText.value;
+      whatsapp.href = 'https://wa.me/' + number + (text.trim() ? '?text=' + encodeURIComponent(text) : '');
+    }
     var maxChars = +(input && input.getAttribute('maxlength')) || 1500;
 
     function el(tag, cls, text) { var e = document.createElement(tag); if (cls) e.className = cls; if (text != null) e.textContent = text; return e; }
@@ -124,12 +132,13 @@
       });
       if (!state.edited) sumText.value = summaryLines().join('\n');
       else copyStatus.textContent = 'عدّلت نص الملخص يدويًا، فلم نغيّره. الجدول أعلاه يعرض اختياراتك الحالية.';
+      updateWhatsAppLink();
     }
-    sumText.addEventListener('input', function () { state.edited = true; });
+    sumText.addEventListener('input', function () { state.edited = true; updateWhatsAppLink(); });
 
     $('[data-as-copy]').addEventListener('click', function () {
       var text = sumText.value;
-      function done(ok) { copyStatus.textContent = ok ? 'نُسخ الملخص. احتفظ به حتى يُفعَّل مسار التواصل.' : 'تعذّر النسخ تلقائيًا. حدّد النص وانسخه يدويًا.'; }
+      function done(ok) { copyStatus.textContent = ok ? 'نُسخ الملخص. يمكنك مراجعته وإرساله إلى فريق WIS عبر WhatsApp.' : 'تعذّر النسخ تلقائيًا. حدّد النص وانسخه يدويًا.'; }
       function fallback() {
         sumText.focus(); sumText.select();
         var ok = false; try { ok = document.execCommand('copy'); } catch (e) { ok = false; }
@@ -143,7 +152,7 @@
       state.sector = state.problem = state.goal = null; state.edited = false;
       root.querySelectorAll('[data-choice] .wis-chip').forEach(function (c) { c.setAttribute('aria-pressed', 'false'); });
       D.steps.forEach(function (s, i) { var box = root.querySelector('[data-step="' + s.id + '"]'); if (box) box.hidden = i > 0; });
-      suggest.hidden = true; summary.hidden = true; sumText.value = ''; copyStatus.textContent = '';
+      suggest.hidden = true; summary.hidden = true; sumText.value = ''; copyStatus.textContent = ''; updateWhatsAppLink();
       var first = root.querySelector('[data-choice] .wis-chip'); if (first) first.focus();
     });
 
@@ -279,3 +288,4 @@
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot);
   else boot();
 })();
+

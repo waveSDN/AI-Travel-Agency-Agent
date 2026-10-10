@@ -585,6 +585,9 @@ function security(k) {
 
 /** @param {any} k @param {any} a */
 function contact(k, a) {
+  const number = String(k.contact.whatsappNumber || '');
+  if (!/^\d{8,15}$/.test(number)) throw new Error('Invalid WhatsApp contact number');
+  const whatsappUrl = `https://wa.me/${number}`;
   const steps = a.steps.map((/** @type {any} */ s, /** @type {number} */ i) => `<div class="wis-q site-astep" data-step="${s.id}"${i ? ' hidden' : ''}>
           <div class="wis-msg wis-msg--agent site-amsg"><span class="wis-msg__who">${esc(a.name)}</span>${esc(s.question)}</div>
           <div class="wis-q__label" id="q-${s.id}"><span class="num">${i + 1}/${a.steps.length}</span>${esc(s.question)}</div>
@@ -599,14 +602,15 @@ function contact(k, a) {
       <header class="wis-section__head" style="margin-bottom:8px">
         ${eyebrow(8, 'التواصل')}
         <h2 class="section-title" id="t-contact">جهّز ملخص احتياجك</h2>
-        <p class="lead">أجب عن ثلاثة أسئلة قصيرة، وشاهد المثال الأقرب لقطاعك، ثم راجع ملخصك وانسخه. تستطيع أن تسأل عن WIS ومشاريعها في أي وقت.</p>
+        <p class="lead">أجب عن ثلاثة أسئلة قصيرة، وشاهد المثال الأقرب لقطاعك، ثم راجع ملخصك وتواصل مع فريق WIS عبر WhatsApp. تستطيع أن تسأل عن WIS ومشاريعها في أي وقت.</p>
       </header>
-      <div class="wis-notice wis-notice--limit">${icon('info')}<p><strong>مسار التواصل لم يُفعَّل بعد.</strong> ${esc(k.contact.status.replace(/^مسار التواصل الرسمي لم يُفعَّل بعد:\s*/, ''))} ${esc(k.contact.copyHint)}</p></div>
-      <button type="button" class="wis-route" aria-disabled="true" disabled>
+      <div class="wis-notice wis-notice--limit">${icon('info')}<p>${esc(k.contact.status)} ${esc(k.contact.copyHint)}</p></div>
+      <a class="wis-route" href="${whatsappUrl}" target="_blank" rel="noopener noreferrer">
         ${icon('chat')}
-        <span class="wis-route__text"><span>المتابعة عبر ${latin('WhatsApp')}</span><small>مسار مقترح — لم يُفعَّل بعد، ولا يوجد رقم منشور</small></span>
-        <span class="wis-tag wis-tag--illustrative" style="margin-inline-start:auto">غير مفعّل</span>
-      </button>
+        <span class="wis-route__text"><span>تواصل مع فريق WIS عبر ${latin('WhatsApp')}</span><small>يفتح المحادثة لتراجع رسالتك وترسلها بنفسك</small></span>
+        ${icon('arrow')}
+      </a>
+      <a class="wis-seclink" href="tel:+${number}">${icon('chat')}<b dir="ltr">${esc(k.contact.phoneDisplay)}</b></a>
       <div class="wis-notice">${icon('shield')}<p><strong>ما يفعله المساعد وما لا يفعله.</strong> يشرح WIS ومشاريعها من المحتوى المعتمد، ويقترح المثال الأقرب، ويجهّز ملخصًا تراجعه بنفسك. لا ينفّذ حجزًا أو دفعًا، ولا يقدّم استشارة طبية أو استثمارية، ولا يطلب بياناتك الشخصية.</p></div>
     </div>
 
@@ -627,7 +631,8 @@ function contact(k, a) {
           <textarea class="wis-input site-textarea" id="as-summary-text" rows="7" data-as-summary-text></textarea>
           <p class="wis-q__hint">${esc(a.ui.summaryNote)}</p>
           <div class="wis-row" style="gap:8px">
-            <button type="button" class="wis-btn wis-btn--primary wis-btn--sm" data-as-copy>${icon('copy')}انسخ الملخص</button>
+            <a class="wis-btn wis-btn--primary wis-btn--sm" data-as-whatsapp data-whatsapp-number="${number}" href="${whatsappUrl}" target="_blank" rel="noopener noreferrer">${icon('chat')}افتح الملخص في WhatsApp</a>
+            <button type="button" class="wis-btn wis-btn--secondary wis-btn--sm" data-as-copy>${icon('copy')}انسخ الملخص</button>
             <button type="button" class="wis-btn wis-btn--secondary wis-btn--sm" data-as-restart>${icon('refresh')}ابدأ من جديد</button>
           </div>
           <p class="small muted" data-as-copy-status role="status"></p>
@@ -734,3 +739,4 @@ ${dialogs(k)}
 }
 
 module.exports = { renderPage, esc };
+
