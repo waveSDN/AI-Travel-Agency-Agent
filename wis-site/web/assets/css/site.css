@@ -1,0 +1,316 @@
+/* WIS site layer: the approved design system (wis.css) laid out as one responsive page.
+   Desktop follows the 1440 screens; phones follow the 390x844 boards (.wis-m rules ported to media queries). */
+
+:root { --bar-h: 64px; --gutter: clamp(20px, 5.5vw, 80px); --sticky-top: var(--bar-h); }
+html { scroll-padding-top: calc(var(--bar-h) + 8px); -webkit-text-size-adjust: 100%; }
+@media (prefers-reduced-motion: no-preference) { html { scroll-behavior: smooth; } }
+body.wis { margin: 0; min-height: 100vh; }
+.wis img { max-width: 100%; }
+.wis a { color: inherit; }
+.wis p a, .wis .site-aprivacy a { color: var(--wave); text-underline-offset: 3px; }
+.wis a:focus-visible, .wis summary:focus-visible, .wis textarea:focus-visible, .wis input:focus-visible { outline: none; box-shadow: var(--focus-ring); border-radius: var(--radius-sm); }
+[hidden] { display: none !important; }
+.sr-only { position: absolute !important; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
+.site-skip { position: absolute; inset-inline-start: 16px; top: -100px; z-index: 100; padding: 12px 16px; border-radius: var(--radius-md); background: var(--wave); color: var(--on-wave); font-weight: 600; text-decoration: none; }
+.site-skip:focus { top: 16px; }
+main:focus { outline: none; }
+
+/* User-supplied WIS artwork, kept whole with its original gold background. */
+.wis-brand { align-items: center; flex-shrink: 0; }
+.wis-brand__logo { display: block; flex: 0 0 auto; width: 48px; height: 48px; object-fit: contain; border-radius: 10px; }
+.site-bar .wis-brand__logo { width: 40px; height: 40px; border-radius: 8px; }
+@media (max-width: 899px) {
+  .site-hero .wis-brand__logo { width: 40px; height: 40px; border-radius: 8px; }
+}
+
+/* ---------- Sections: 1440 design, centred on wider screens */
+.wis-section { padding: 112px max(var(--gutter), calc((100% - 1280px) / 2)) 88px; }
+.wis-section + .wis-section { border-top: 1px solid #ffffff08; }
+.site-head-wide { max-width: 920px; }
+.site-head-wide .lead { max-width: none; }
+.site-state-warn { background: var(--warn-soft); color: var(--warn); }
+.wis-section__rail { inset-inline-start: max(40px, calc((100% - 1280px) / 2 - 40px)); }
+
+/* ---------- Hero: sticky inside a tall track; the wave runs over the extra height */
+.wis-hero-track { position: relative; }
+.js .wis-hero-track { height: 240vh; height: 240svh; }
+.site-hero { position: sticky; top: 0; height: 100vh; height: 100svh; min-height: 620px; max-height: 1200px; }
+.site-hero .wis-hero__media { position: absolute; inset: 0; }
+.site-hero .wis-hero__layer--past { z-index: 0; }
+.site-hero .wis-hero__ui--past { z-index: 1; }
+.site-hero .wis-hero__layer--present { z-index: 2; }
+.site-hero .wis-hero__ui--present { z-index: 3; }
+.site-hero .wis-hero__wave { z-index: 4; }
+.site-hero .wis-hero__handoff { z-index: 4; }
+.site-hero .wis-scrollcue { z-index: 5; }
+.site-hero picture { position: absolute; inset: 0; display: block; }
+.site-hero .wis-hero__img { object-position: 50% 42%; }
+.site-hero .wis-hero__nav { padding: 0 var(--gutter); gap: clamp(16px, 3vw, 48px); }
+.site-hero .wis-nav__links { gap: clamp(16px, 2.2vw, 32px); }
+.site-hero .wis-hero__content { inset-inline-start: var(--gutter); top: clamp(112px, 16vh, 156px); width: min(660px, 50vw); }
+.site-hero .wis-hero__title { font-size: clamp(38px, 3.9vw, 56px); line-height: 1.4; }
+.site-hero .wis-hero__actions { flex-wrap: wrap; }
+.wis-hero__menu { display: none; }
+.wis-hero__ui--past .wis-hero__menu { visibility: hidden; }
+.wis-scrollcue { opacity: max(0, 1 - var(--p) * 4); }
+.site-hero.is-done .wis-scrollcue { visibility: hidden; }
+@media (prefers-reduced-motion: reduce) {
+  .js .wis-hero-track { height: auto; }
+  .site-hero { position: relative; }
+  .site-hero .wis-scrollcue { display: none; }
+}
+
+/* ---------- Sticky site bar (after the hero) and the menu panel */
+.site-bar { position: sticky; top: 0; z-index: 50; background: #071321eb; border-bottom: 1px solid var(--line); -webkit-backdrop-filter: saturate(1.2) blur(10px); backdrop-filter: saturate(1.2) blur(10px); }
+.site-bar__inner { display: flex; align-items: center; gap: clamp(16px, 3vw, 40px); height: var(--bar-h); padding: 0 max(var(--gutter), calc((100% - 1280px) / 2)); }
+.site-bar__links { display: flex; gap: clamp(14px, 2vw, 28px); margin-inline: auto; }
+.site-bar__links .wis-nav__link { white-space: nowrap; }
+.site-bar__menu { display: none; }
+.site-menu { position: fixed; inset: 0 0 auto 0; z-index: 70; max-height: 100vh; overflow-y: auto; padding: 16px 20px 20px; background: var(--bg-raised); border-bottom: 1px solid var(--line-control); box-shadow: var(--shadow-pop); }
+.site-menu ul { display: flex; flex-direction: column; margin-bottom: 12px; }
+.site-menu a { display: flex; align-items: center; min-height: 48px; padding: 0 8px; font-size: 17px; font-weight: 600; text-decoration: none; border-bottom: 1px solid var(--line); }
+
+/* ---------- Challenges */
+.site-split { grid-template-columns: minmax(0, 440px) minmax(0, 1fr); gap: clamp(32px, 4vw, 64px); }
+.site-chbody { gap: 22px; padding-block: 24px; }
+.site-chfoot { justify-content: space-between; }
+.site-kv dd { min-width: 0; }
+
+/* ---------- Methodology */
+.site-stages { margin-bottom: 28px; }
+.site-stages .wis-step { min-width: 0; }
+.site-stages .wis-step[aria-current="step"] .wis-step__name { color: var(--wave); }
+.site-stagepanel { margin-bottom: 20px; }
+.site-stagepanel .wis-panel__head { flex-wrap: wrap; padding-block: 18px; }
+.site-stagenum { flex: none; background: var(--wave); border-color: var(--wave); color: var(--on-wave); }
+.site-flowhead { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; margin-bottom: 16px; }
+.site-flow3 { grid-template-columns: 1fr 40px 1fr 40px 1fr; }
+.site-roles__head { padding-block: 14px 0; border: 0; align-items: flex-start; flex-wrap: wrap; }
+.wis-tabs--line { flex-wrap: wrap; row-gap: 4px; }
+
+/* ---------- Agent fit section */
+.site-fitsection { padding-top: 72px; }
+.wis-perm__text { display: block; }
+
+/* ---------- Inside the agent */
+.site-head-wide.wis-section__head { margin-bottom: 36px; }
+.site-inside { grid-template-columns: 620px minmax(0, 1fr); gap: 56px; align-items: center; }
+.site-hub { width: 620px; height: 540px; }
+.site-hub .wis-part { left: var(--x); top: var(--y); }
+.site-partwhat { font-size: 18px; line-height: 30px; }
+
+/* ---------- Simulation */
+.site-headrow { margin-bottom: 28px; }
+.site-simbar { justify-content: space-between; margin-bottom: 20px; }
+.site-simhead { padding-block: 14px; }
+.site-simside { padding: 20px 24px; }
+.wis-sim { grid-template-columns: minmax(0, 1fr) minmax(0, 520px); }
+.wis-sim__thread:focus-visible { outline: none; box-shadow: inset var(--focus-ring); }
+
+/* ---------- Projects + lab */
+.site-cards { margin-bottom: 48px; }
+.site-labtitle { font-size: 30px; }
+.site-labdesc { font-size: 18px; line-height: 32px; }
+.site-chart { margin: 0; align-self: center; min-width: 0; }
+.wis-lab__pipeline { margin: 0; padding: 0; list-style: none; }
+.site-pipe { display: inline-flex; align-items: center; gap: var(--space-2); }
+
+/* ---------- Project dialogs (native <dialog>); without JS they show as plain sections */
+.wis-dialog { width: min(720px, calc(100% - 32px)); max-height: min(86vh, 900px); padding: 0; border: 1px solid var(--line-control); border-radius: var(--radius-lg); background: var(--bg-raised); color: var(--ink); box-shadow: var(--shadow-pop); }
+.wis-dialog::backdrop { background: #040d17c7; }
+.wis-dialog__inner { display: flex; flex-direction: column; max-height: inherit; }
+.wis-dialog__head { display: flex; align-items: flex-start; gap: 12px; padding: 20px 24px 16px; border-bottom: 1px solid var(--line); }
+.wis-dialog__head .wis-tag { margin-inline-start: auto; margin-top: 4px; }
+.wis-dialog__title { font-size: 24px; line-height: 34px; font-weight: 700; text-align: right; outline: none; }
+.wis-dialog__close { flex: none; }
+.wis-dialog__body { overflow-y: auto; padding: 20px 24px; display: flex; flex-direction: column; gap: 12px; }
+.wis-dialog__desc { font-size: 17px; line-height: 30px; color: var(--ink-muted); }
+.wis-dialog__h { margin-top: 8px !important; font-size: 15px; line-height: 24px; font-weight: 600; color: var(--ink-faint); }
+.wis-dialog__foot { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; padding: 16px 24px 20px; border-top: 1px solid var(--line); }
+html:not(.js) .wis-dialog { display: block; position: static; margin: 24px auto; max-height: none; }
+
+/* ---------- Security */
+.site-secgrid .wis-sec { min-width: 0; }
+/* the page's scroll-padding already clears the sticky bar; the design's 96px margin would double it */
+.wis-secgen, .wis-sec, .wis-fit { scroll-margin-top: 0; }
+.wis-secgen:focus { outline: none; }
+
+/* ---------- Contact + assistant */
+.site-contact { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 600px); gap: clamp(32px, 4vw, 56px); align-items: start; }
+.site-contact__intro { gap: 16px; }
+.wis-route[disabled] { cursor: not-allowed; }
+.wis-assistant { display: flex; flex-direction: column; overflow: hidden; }
+.wis-assistant .wis-sheet__head { padding: 16px 20px; }
+.site-astatus { margin-inline-start: auto; }
+.site-astatus.is-live { border-style: solid; border-color: #2dd4bf66; color: var(--wave); }
+.site-astatus.is-offline { border-color: #f2b84b55; color: var(--warn); }
+.site-abody { display: flex; flex-direction: column; gap: 18px; padding: 20px; }
+.site-amsg { max-width: 100%; }
+.site-astep .site-amsg { display: none; }
+.site-asuggest { display: flex; flex-direction: column; gap: 10px; padding: 14px 16px; border-radius: var(--radius-md); background: var(--wave-soft); }
+.site-asuggest p { font-size: 15px; line-height: 25px; }
+.site-asuggest .wis-row { gap: 8px; }
+.site-asummary { display: flex; flex-direction: column; gap: 10px; padding-top: 16px; border-top: 1px solid var(--line); }
+.site-textarea { width: 100%; min-height: 96px; padding: 12px 14px; line-height: 1.75; resize: vertical; font-size: 15px; }
+.site-left { text-align: start; }
+.site-aask { display: flex; flex-direction: column; gap: 12px; padding-top: 16px; border-top: 1px solid var(--line); }
+.site-faqchip { min-height: 40px; font-size: 14px; }
+.site-alog { display: flex; flex-direction: column; gap: 10px; margin: 0; padding: 0; list-style: none; }
+.site-alog:empty { display: none; }
+.site-alog li { display: flex; flex-direction: column; gap: 6px; }
+.site-alog .wis-msg { max-width: 100%; font-size: 15px; line-height: 26px; white-space: pre-line; overflow-wrap: anywhere; }
+.site-alog .wis-msg--customer { align-self: flex-start; }
+.site-alog .wis-msg--agent { align-self: stretch; }
+.site-alog .wis-msg--notice { align-self: stretch; max-width: 100%; background: transparent; border: 1px dashed #f2b84b66; color: var(--ink-muted); font-size: 14px; line-height: 23px; }
+.site-alabel { display: inline-flex; align-items: center; gap: 6px; font-size: 12px; line-height: 18px; font-weight: 600; color: var(--ink-faint); }
+.site-alabel .wis-icon { width: 14px; height: 14px; }
+.site-alabel--live { color: var(--wave); }
+.site-aactions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 6px; }
+.site-aform { display: flex; flex-direction: column; gap: 8px; }
+.site-aformrow { justify-content: space-between; }
+.site-aprivacy { display: flex; gap: 8px; align-items: flex-start; padding: 10px 12px; border-radius: var(--radius-md); border: 1px solid var(--line); background: var(--bg-sunken); font-size: 13px; line-height: 21px; color: var(--ink-muted); }
+.site-aprivacy .wis-icon { width: 16px; height: 16px; margin-top: 3px; color: var(--wave); flex: none; }
+
+/* ---------- Footer */
+.site-footer { border-top: 1px solid var(--line); background: var(--bg-sunken); }
+.site-footer__inner { display: flex; align-items: center; justify-content: space-between; gap: 16px 40px; flex-wrap: wrap; padding: 28px max(var(--gutter), calc((100% - 1280px) / 2)) 96px; }
+.site-footer__inner p { max-width: 720px; }
+
+/* ================= Responsive ================= */
+@media (max-width: 1279px) {
+  .site-inside { grid-template-columns: minmax(0, 1fr); justify-items: center; }
+  .site-inside > .wis-stack { width: 100%; }
+  .wis-secgen__list { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+@media (max-width: 1199px) {
+  .wis-flow { grid-template-columns: minmax(0, 1fr); row-gap: 0; }
+  .wis-flow__arrow { justify-self: center; width: 2px; height: 22px; }
+  .wis-flow__arrow::after { inset-inline-end: auto; left: -5px; top: auto; bottom: -4px; border-width: 8px 6px 0; border-inline-start-width: 6px; border-color: var(--wave) transparent transparent; border-inline-start-color: transparent; }
+  .site-flow3 { grid-template-columns: minmax(0, 1fr); }
+  .wis-fit__grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .wis-fit__grid > :last-child { grid-column: 1 / -1; }
+  .wis-sim { grid-template-columns: minmax(0, 1fr) minmax(0, 420px); }
+  .site-bar__links { gap: 14px; }
+}
+@media (max-width: 1099px) {
+  .site-cards { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .site-lab { grid-template-columns: minmax(0, 1fr); padding: 32px; }
+  .site-contact { grid-template-columns: minmax(0, 1fr); }
+  .site-bar__links { display: none; }
+  .site-bar__menu { display: inline-flex; }
+  .site-bar__cta { margin-inline-start: auto; }
+}
+
+/* ---------- Tablet and phone: photos on top, text in a navy panel (the phone board), stacked sections */
+@media (max-width: 899px) {
+  :root { --bar-h: 60px; }
+  .js .wis-hero-track { height: 220vh; height: 220svh; }
+  .site-hero { min-height: 600px; }
+  .site-hero .wis-hero__media { inset: 0 0 auto 0; height: 74%; overflow: hidden; }
+  .site-hero .wis-hero__wave { -webkit-mask-image: linear-gradient(to bottom, #000 72%, transparent 92%); mask-image: linear-gradient(to bottom, #000 72%, transparent 92%); }
+  .site-hero .wis-hero__img { object-position: 50% 0%; }
+  .site-hero .wis-hero__layer--past .wis-hero__shade { background: linear-gradient(to top, #071321 0, #071321 6%, #07132100 34%); }
+  .site-hero .wis-hero__layer--present .wis-hero__shade { background: linear-gradient(to bottom, #07132166 0, #07132100 110px), linear-gradient(to top, #071321 0, #071321 6%, #07132100 34%); }
+  .site-hero .wis-hero__ui--past { display: none; }
+  .site-hero .wis-hero__nav { height: 60px; padding: 0 20px; gap: 0; justify-content: space-between; }
+  .site-hero .wis-nav__links, .site-hero .wis-hero__contact, .site-hero .wis-brand__name { display: none; }
+  .wis-hero__menu { display: inline-flex; }
+  .site-hero .wis-hero__content { top: auto; bottom: 24px; inset-inline: 20px; width: auto; gap: 12px; }
+  .site-hero .wis-hero__title { font-size: clamp(28px, 7.6vw, 40px); line-height: 1.45; }
+  .site-hero .wis-hero__desc { font-size: 15px; line-height: 25px; }
+  .site-hero .wis-hero__actions { flex-direction: column; gap: 10px; margin-top: 6px; }
+  .site-hero .wis-hero__actions .wis-btn { width: 100%; }
+  .site-hero .wis-scrollcue, .site-hero .wis-hero__handoff { display: none; }
+
+  .wis-section { padding: 72px 20px 56px; }
+  .wis-section__rail { display: none; }
+  .wis-section__head { margin-bottom: 28px; }
+  .wis-m .section-title, .section-title { font-size: 28px; line-height: 42px; }
+  .wis-section__head .lead, .lead { font-size: 16px; line-height: 28px; }
+  .site-fitsection { padding-top: 56px; }
+  .wis-head-row { flex-direction: column; align-items: flex-start; gap: 16px; }
+  .wis-panel__head { padding: 16px; flex-wrap: wrap; }
+  .wis-panel__body { padding: 16px; }
+  .wis-btn { white-space: normal; text-align: center; }
+  .wis-tag--lg { white-space: normal; min-height: 32px; padding-block: 4px; }
+
+  /* challenges */
+  .site-split { grid-template-columns: minmax(0, 1fr); gap: 20px; }
+  .wis-option { padding: 14px 16px; gap: 12px; }
+  .wis-option__title { font-size: 18px; line-height: 28px; }
+  .wis-kv--2 { grid-template-columns: auto minmax(0, 1fr); }
+  .site-chfoot .wis-btn { width: 100%; justify-content: center; }
+
+  /* every step rail becomes a vertical list */
+  .wis-steps { grid-template-columns: minmax(0, 1fr) !important; gap: 12px; }
+  .wis-steps::before, .wis-steps__fill { display: none; }
+  .wis-step { display: grid; grid-template-columns: 44px minmax(0, 1fr); column-gap: 12px; row-gap: 0; align-items: start; }
+  .wis-step__node { grid-row: 1 / span 2; }
+  .wis-step__name { font-size: 16px; line-height: 26px; }
+  .wis-step__out { font-size: 14px; line-height: 22px; }
+
+  /* fit: the .wis-m rules of the phone board */
+  .wis-fit { padding: 20px 16px; }
+  .wis-fit__head { flex-direction: column; gap: 12px; }
+  .wis-fit__title { font-size: 22px; line-height: 34px; }
+  .wis-fit__desc { font-size: 15px; line-height: 25px; }
+  .wis-fit__bar { flex-direction: column; align-items: stretch; gap: 8px; position: sticky; top: var(--sticky-top, 0px); z-index: 2; margin: 16px -16px; padding: 8px 16px 12px; background: var(--bg-raised); border-bottom: 1px solid var(--line); }
+  .wis-tabs { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .wis-tabs--line { display: flex; }
+  .wis-tab { justify-content: center; padding: 0 8px; font-size: 14px; text-align: center; }
+  .wis-tabs:not(.wis-tabs--line) .wis-tab[aria-selected="true"]::before { display: none; }
+  .wis-fit__grid { grid-template-columns: minmax(0, 1fr); gap: 12px; }
+  .wis-fit__card { padding: 16px; }
+  .wis-fit__mission { font-size: 16px; line-height: 27px; }
+  .wis-fit__foot, .wis-fit__go { flex-direction: column; align-items: stretch; gap: 12px; }
+
+  /* inside the agent: parts become a two-column list under the message */
+  .site-hub { width: 100%; height: auto; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+  .site-hub .wis-hub__lines { display: none; }
+  .site-hub .wis-hub__core { position: static; transform: none; width: auto; grid-column: 1 / -1; }
+  .site-hub .wis-part { position: static; transform: none; white-space: normal; min-height: 52px; padding: 8px 12px; font-size: 15px; line-height: 22px; text-align: start; }
+  .site-trio { grid-template-columns: minmax(0, 1fr); }
+  .site-partwhat { font-size: 16px; line-height: 27px; }
+
+  /* simulation */
+  .wis-sim { grid-template-columns: minmax(0, 1fr); gap: 12px; }
+  .wis-sim > *, .wis-input { min-width: 0; }
+  .wis-sim__thread { height: 420px; padding: 16px; }
+  .wis-msg { max-width: 92%; font-size: 15px; line-height: 25px; }
+  .wis-toolcard { width: 92%; }
+  .site-simside { padding: 16px; }
+  .site-simbar { flex-direction: column; align-items: stretch; }
+
+  /* projects, lab, security */
+  .site-cards { grid-template-columns: minmax(0, 1fr); gap: 16px; }
+  .wis-card__media { height: 176px; }
+  .wis-card__body { padding: 20px; }
+  .site-lab { padding: 20px; gap: 24px; }
+  .wis-lab__foot { flex-direction: column; align-items: stretch; }
+  .wis-details__list { grid-template-columns: minmax(0, 1fr); gap: 0; }
+  .wis-details__list dd { margin-bottom: 8px; }
+  .wis-secgen { padding: 20px 16px; }
+  .wis-secgen__head { flex-wrap: wrap; }
+  .wis-secgen__head .wis-tag { margin-inline-start: 52px; }
+  .wis-secgen__list { grid-template-columns: minmax(0, 1fr); gap: 4px; }
+  .wis-secgen__item { flex-direction: row; align-items: flex-start; gap: 10px; padding: 8px 0; background: transparent; border: 0; }
+  .wis-secgen__item > .wis-icon { width: 16px; height: 16px; margin-top: 4px; }
+  .wis-sec-grid { grid-template-columns: minmax(0, 1fr); gap: 12px; }
+  .wis-sec { padding: 20px 16px; }
+  .wis-sec__head { flex-wrap: wrap; }
+
+  /* assistant + dialogs */
+  .site-abody { padding: 16px; }
+  .wis-assistant .wis-sheet__head { padding: 14px 16px; flex-wrap: wrap; }
+  .site-aformrow { flex-direction: column; align-items: stretch; gap: 8px; }
+  .site-aformrow > .wis-row { justify-content: space-between; }
+  .wis-dialog { width: calc(100% - 16px); max-height: 92vh; }
+  .wis-dialog__head, .wis-dialog__body, .wis-dialog__foot { padding-inline: 16px; }
+  .wis-dialog__head { flex-wrap: wrap; }
+  .wis-dialog__title { font-size: 20px; line-height: 30px; }
+}
+@media (max-width: 599px) {
+  .site-bar__cta { padding: 0 12px; }
+  .site-bar__cta .wis-icon { display: none; }
+  .wis-secgen__head .wis-tag { margin-inline-start: 0; }
+}

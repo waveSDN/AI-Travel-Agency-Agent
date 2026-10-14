@@ -1,0 +1,8 @@
+node_modules/
+public/
+coverage/
+test-results/
+.env
+.env.*
+!.env.example
+*.log
