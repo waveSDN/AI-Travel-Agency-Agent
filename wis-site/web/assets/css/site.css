@@ -15,6 +15,14 @@ body.wis { margin: 0; min-height: 100vh; }
 .site-skip:focus { top: 16px; }
 main:focus { outline: none; }
 
+/* User-supplied WIS artwork, kept whole with its original gold background. */
+.wis-brand { align-items: center; flex-shrink: 0; }
+.wis-brand__logo { display: block; flex: 0 0 auto; width: 48px; height: 48px; object-fit: contain; border-radius: 10px; }
+.site-bar .wis-brand__logo { width: 40px; height: 40px; border-radius: 8px; }
+@media (max-width: 899px) {
+  .site-hero .wis-brand__logo { width: 40px; height: 40px; border-radius: 8px; }
+}
+
 /* ---------- Sections: 1440 design, centred on wider screens */
 .wis-section { padding: 112px max(var(--gutter), calc((100% - 1280px) / 2)) 88px; }
 .wis-section + .wis-section { border-top: 1px solid #ffffff08; }

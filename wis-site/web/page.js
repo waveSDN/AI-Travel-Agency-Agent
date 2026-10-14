@@ -62,7 +62,7 @@ function hero(k) {
     </div>
     <div class="wis-hero__ui wis-hero__ui--present">
       <header class="wis-hero__nav wis-nav">
-        <a class="wis-brand" href="#top" aria-label="${esc(c.short)} — ${esc(c.name)}"><span class="wis-brand__mark">${esc(c.short)}</span><span class="wis-brand__name">${esc(c.name)}</span></a>
+        <a class="wis-brand" href="#top" aria-label="${esc(c.short)} — ${esc(c.name)}"><img class="wis-brand__logo" src="assets/img/wis-logo.webp" width="48" height="48" alt="" decoding="async"><span class="wis-brand__mark">${esc(c.short)}</span><span class="wis-brand__name">${esc(c.name)}</span></a>
         <nav class="wis-nav__links" aria-label="أقسام الموقع">
           ${NAV.map(([h, t]) => `<a class="wis-nav__link" href="${h}">${esc(t)}</a>`).join('\n          ')}
         </nav>
@@ -87,7 +87,7 @@ function hero(k) {
 function siteBar() {
   return `<header class="site-bar" aria-label="شريط التنقل">
   <div class="site-bar__inner">
-    <a class="wis-brand" href="#top" aria-label="WIS — العودة إلى البداية"><span class="wis-brand__mark">WIS</span></a>
+    <a class="wis-brand" href="#top" aria-label="WIS — العودة إلى البداية"><img class="wis-brand__logo" src="assets/img/wis-logo.webp" width="48" height="48" alt="" decoding="async"><span class="wis-brand__mark">WIS</span></a>
     <nav class="site-bar__links" aria-label="أقسام الصفحة">
       ${BAR_NAV.map(([h, t]) => `<a class="wis-nav__link" href="${h}" data-nav-link>${esc(t)}</a>`).join('\n      ')}
     </nav>
@@ -669,7 +669,7 @@ function contact(k, a) {
 function footer(k) {
   return `<footer class="site-footer">
   <div class="site-footer__inner">
-    <a class="wis-brand" href="#top"><span class="wis-brand__mark">WIS</span><span class="wis-brand__name">${esc(k.company.name)}</span></a>
+    <a class="wis-brand" href="#top"><img class="wis-brand__logo" src="assets/img/wis-logo.webp" width="48" height="48" alt="" decoding="async"><span class="wis-brand__mark">WIS</span><span class="wis-brand__name">${esc(k.company.name)}</span></a>
     <p class="small muted">${esc(k.company.stage)} الأمثلة والمحاكاة في هذا الموقع توضيحية ببيانات تجريبية، ولا تتصل بأي نظام.</p>
   </div>
 </footer>`;
@@ -706,6 +706,9 @@ function renderPage(k, a, build) {
 <title>${esc(k.company.short)} — ${esc(k.company.headline)}</title>
 <meta name="description" content="${esc(k.company.description)}">
 <meta name="theme-color" content="#071321">
+<link rel="icon" type="image/png" sizes="32x32" href="assets/img/wis-favicon-32.png">
+<link rel="icon" type="image/png" sizes="192x192" href="assets/img/wis-icon-192.png">
+<link rel="apple-touch-icon" sizes="180x180" href="assets/img/wis-apple-touch-icon.png">
 <meta name="robots" content="noindex, nofollow">
 <link rel="preload" href="assets/fonts/IBMPlexSansArabic-Bold.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="preload" href="assets/fonts/IBMPlexSansArabic-Regular.woff2" as="font" type="font/woff2" crossorigin>
